@@ -149,7 +149,7 @@ public class Lauch : MonoBehaviour
 			closeGate();
 			GetComponent<AudioSource>().volume = 0;
 			GetComponent<LeapControl>().enabled = true;
-			GameObject.Find("OVRCameraController").GetComponent<CameraTorque>().enabled = true;
+			//GameObject.Find("OVRCameraController").GetComponent<CameraTorque>().enabled = true;
 			GetComponent<Stabiliser>().enabled = true;
 			this.GetComponent<Lauch>().enabled = false;
 			break;
