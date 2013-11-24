@@ -49,7 +49,6 @@ public class Lauch : MonoBehaviour
 	
 	// Use this for initialization
 	void Start () {
-		
 		try{
 			controller = new Controller();
 			state = State.NO_INPUT;
@@ -67,6 +66,7 @@ public class Lauch : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate () {		
 		Frame latestFrame = controller.Frame();
+		SkipLaunchSequence();
 		//Debug.Log ("State: " + state.ToString());
 		switch (state) {
 		case State.NO_INPUT:
@@ -124,7 +124,7 @@ public class Lauch : MonoBehaviour
 			launchShip();
 			//Debug.Log("Ship: " + transform.position.z + " Gate: " + gateTrigger.z);
 			if(transform.position.z > gateTrigger.z){
-				GameObject.Find("AsteroidGenerator").GetComponent<AsteroidGeneratorBoxScript>().enabled = true;
+				//GameObject.Find("AsteroidGenerator").GetComponent<AsteroidGeneratorBoxScript>().enabled = true;
 				setOpenGateVars();
 				state = State.CLOSE_GATE;
 			}
@@ -155,6 +155,11 @@ public class Lauch : MonoBehaviour
 			break;
 		}
 		
+	}
+
+	private void SkipLaunchSequence() {
+		if (Input.GetKeyDown(KeyCode.Space))
+			state++;
 	}
 	
 	private void onNoInput(int handCount){

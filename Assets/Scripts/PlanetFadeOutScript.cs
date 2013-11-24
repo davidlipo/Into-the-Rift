@@ -14,11 +14,13 @@ public class PlanetFadeOutScript : MonoBehaviour {
 		beginFade = false;
 	}
 	
-	void OnTriggerEnter () {
-		Debug.Log ("Trigger");
-		GameObject.Find("ShipModel").GetComponent<BoxCollider>().enabled = false;
-		beginFade = true;
-		//Camera.main.GetComponent<CameraShake>().Intensity = 0.001f;
+	void OnTriggerEnter (Collider collider) {
+		if (collider.name == "ShipModel") {
+			Debug.Log ("Trigger");
+			GameObject.Find("ShipModel").GetComponent<BoxCollider>().enabled = false;
+			beginFade = true;
+			Camera.main.GetComponent<CameraShake>().Intensity = 0.001f;
+		}
 	}
 	
 	void Update () {

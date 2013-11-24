@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AsteroidScript.cs">
+    <Files>
+      <File FileName="Assets\Scripts\AsteroidGeneratorBoxScript.cs" Line="33" Column="67" />
+      <File FileName="Assets\Scripts\AsteroidScript.cs" Line="32" Column="38" />
+      <File FileName="Assets\Scripts\PlanetFadeOutScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\DistanceToMoonScript.cs" Line="26" Column="7" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

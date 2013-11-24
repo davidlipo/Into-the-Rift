@@ -7,24 +7,27 @@ public class AsteroidScript : MonoBehaviour {
 	public float minSize;
 	public float maxForce;
 	public float minForce;
+	public float fadeRate;
+	private float alpha;
 	private GameObject generator;
 	private float size;
 	private float force;
-	private float xBounds;
-	private float yBounds;
-	private float zBounds;
+	private float bounds;
+	private bool outOfBounds;
+	private bool fadeIn;
 	
 	// Use this for initialization
 	
 	public void SetGenerator(GameObject gen)
 	{
 		generator = gen;
-		xBounds = generator.GetComponent<AsteroidGeneratorBoxScript>().xBounds;
-		yBounds = generator.GetComponent<AsteroidGeneratorBoxScript>().yBounds;
-		zBounds = generator.GetComponent<AsteroidGeneratorBoxScript>().zBounds;
+		bounds = generator.GetComponent<AsteroidGeneratorBoxScript>().Size;
 	}
 	
 	void Start () {
+		alpha = 1;
+		fadeIn = false;
+		outOfBounds = false;
 		size = Random.Range(minSize, maxSize);
 		force = Random.Range(minForce, maxForce);
 		Vector3 randomRotation = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
@@ -36,37 +39,33 @@ public class AsteroidScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		if (generator != null) {
-			float xDiff = 0;
-			float yDiff = 0;
-			float zDiff = 0;
-			
-			if (transform.position.x < generator.transform.position.x - xBounds) {
-				xDiff += xBounds * 1.9f;
-				Reset();
-			} else if (transform.position.x > generator.transform.position.x + xBounds) {
-				xDiff -= xBounds * 1.9f;
-				Reset();
+		if (!outOfBounds) { //Within Bounds
+			if (generator != null && GameObject.Find("ShipModel").GetComponent<DistanceToMoonScript>().getOutsideDespawn()) {		
+				if (Vector3.Distance(transform.position, generator.transform.position) > bounds) {
+					outOfBounds = true;
+				}
 			}
-			
-			if (transform.position.y < generator.transform.position.y - yBounds) {
-				yDiff += yBounds * 1.9f;
-				Reset();
-			} else if (transform.position.y > generator.transform.position.y + yBounds) {
-				yDiff -= yBounds * 1.9f;
-				Reset();
-			} 
-			
-			if (transform.position.z < generator.transform.position.z - zBounds) {
-				zDiff += zBounds * 1.9f;
-				Reset();
-			} else if (transform.position.z > generator.transform.position.z + zBounds) {
-				zDiff -= zBounds * 1.9f;
-				Reset();
+		} else { //Out of Bounds
+			if  (!fadeIn) {  //Fading Out
+				if (alpha > 0) {
+					alpha -= fadeRate;
+					renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, alpha);
+				} else { //Object is Transparent
+					fadeIn = true;
+					alpha = 0;
+					transform.position = Random.onUnitSphere * (0.98f * bounds) + generator.transform.position;
+					Reset ();
+				}
+			} else { //Fading In
+				if (alpha < 1) {
+					alpha += fadeRate;
+					renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, alpha);
+				} else { //Object is Visible
+					alpha = 1;
+					fadeIn = false;
+					outOfBounds = false;
+				}
 			}
-			
-			gameObject.transform.position += new Vector3(xDiff, yDiff, zDiff);
 		}
 	}
 	
